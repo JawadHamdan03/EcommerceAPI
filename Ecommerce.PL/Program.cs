@@ -1,7 +1,10 @@
-
 using Ecommerce.BLL.Services;
+using Ecommerce.BLL.Services.Classes;
+using Ecommerce.BLL.Services.Interfaces;
 using Ecommerce.DAL.Data;
 using Ecommerce.DAL.Repositery;
+using Ecommerce.DAL.Repositery.Classes;
+using Ecommerce.DAL.Repositery.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
@@ -16,8 +19,10 @@ namespace Ecommerce.PL
             // Add services to the container.
             builder.Services.AddDbContext<AppDbcontext>(options=> options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            builder.Services.AddScoped<CategoryRepositery>();
-            builder.Services.AddScoped<CategoryService>();
+            builder.Services.AddScoped<ICategoryRepositery,CategoryRepositery>();
+            builder.Services.AddScoped<ICategoryService,CategoryService>();
+            builder.Services.AddScoped<IBrandRepositery,BrandRepositery>();
+            builder.Services.AddScoped<IBrandService,BrandService>();
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();

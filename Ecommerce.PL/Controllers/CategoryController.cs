@@ -1,4 +1,5 @@
-﻿using Ecommerce.BLL.Services;
+﻿using Ecommerce.BLL.Services.Classes;
+using Ecommerce.BLL.Services.Interfaces;
 using Ecommerce.DAL.DTO.Requests;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,8 +10,8 @@ namespace Ecommerce.PL.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly CategoryService _categoryService;
-        public CategoryController(CategoryService categoryService)
+        private readonly ICategoryService _categoryService;
+        public CategoryController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
         }
@@ -22,7 +23,7 @@ namespace Ecommerce.PL.Controllers
         public IActionResult GetById([FromRoute] int id) => Ok(_categoryService.GetById(id));
 
         [HttpPost]
-        public IActionResult CreateCategory([FromBody] CategoryRequest categoryRequest)=>Ok(_categoryService.CreateCategory(categoryRequest));
+        public IActionResult CreateCategory([FromBody] CategoryRequest categoryRequest)=>Ok(_categoryService.Create(categoryRequest));
 
         [HttpDelete("{id}")]
         public IActionResult Delete([FromRoute] int id) => Ok(_categoryService.delete(id));
