@@ -2,9 +2,12 @@ using Ecommerce.BLL.Services;
 using Ecommerce.BLL.Services.Classes;
 using Ecommerce.BLL.Services.Interfaces;
 using Ecommerce.DAL.Data;
+using Ecommerce.DAL.Models;
 using Ecommerce.DAL.Repositery;
 using Ecommerce.DAL.Repositery.Classes;
 using Ecommerce.DAL.Repositery.Interfaces;
+using Ecommerce.DAL.Utils;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
@@ -12,7 +15,7 @@ namespace Ecommerce.PL
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +26,12 @@ namespace Ecommerce.PL
             builder.Services.AddScoped<ICategoryService,CategoryService>();
             builder.Services.AddScoped<IBrandRepositery,BrandRepositery>();
             builder.Services.AddScoped<IBrandService,BrandService>();
+            builder.Services.AddScoped<ISeedData,SeedData>();
+            builder.Services.AddIdentity<ApplicationUser,IdentityRole>()
+                .AddEntityFrameworkStores<AppDbcontext>();
+            builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+
+
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
@@ -35,6 +44,12 @@ namespace Ecommerce.PL
                 app.MapScalarApiReference();
                 app.MapOpenApi();
             }
+
+            var scope = app.Services.CreateScope();
+           var objSeedData= scope.ServiceProvider.GetRequiredService<ISeedData>();
+            await objSeedData.SeedDataModelsAsync();
+            await objSeedData.IdentitySeedDataAsync();
+
 
             app.UseHttpsRedirection();
 

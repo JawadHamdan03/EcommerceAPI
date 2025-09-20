@@ -20,4 +20,9 @@
     <ProjectReference Include="..\Ecommerce.BLL\Ecommerce.BLL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Controllers\" />
+    <Folder Include="Areas\Customer\Controllers\" />
+  </ItemGroup>
+
 </Project>
