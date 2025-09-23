@@ -1,5 +1,6 @@
 ﻿using Ecommerce.BLL.Services.Interfaces;
 using Ecommerce.DAL.DTO.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace Ecommerce.PL.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BrandController : ControllerBase
     {
         private readonly IBrandService _brandService;
