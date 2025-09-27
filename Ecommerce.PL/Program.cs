@@ -7,8 +7,10 @@ using Ecommerce.DAL.Repositery;
 using Ecommerce.DAL.Repositery.Classes;
 using Ecommerce.DAL.Repositery.Interfaces;
 using Ecommerce.DAL.Utils;
+using Ecommerce.PL.utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
@@ -30,10 +32,19 @@ namespace Ecommerce.PL
             builder.Services.AddScoped<IBrandRepositery,BrandRepositery>();
             builder.Services.AddScoped<IBrandService,BrandService>();
             builder.Services.AddScoped<ISeedData,SeedData>();
-            builder.Services.AddIdentity<ApplicationUser,IdentityRole>()
-                .AddEntityFrameworkStores<AppDbcontext>();
             builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+            builder.Services.AddScoped<IEmailSender, EmailSetting>();
 
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 10;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.User.RequireUniqueEmail = true;
+            })
+               .AddEntityFrameworkStores<AppDbcontext>().AddDefaultTokenProviders();
 
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

@@ -33,5 +33,27 @@ namespace Ecommerce.PL.Areas.Identity.Controllers
         }
 
 
+        [HttpGet("ConfirmEmail")]
+        public async Task<ActionResult<string>> ConfirmEmail([FromQuery]string token,[FromQuery]string userId)
+        {
+           var result = await authenticationService.ConfirmEmail(token,userId);
+            return Ok(result);
+        }
+
+        [HttpPost("forget-password")]
+        public async Task<ActionResult<string>> ForgetPassword([FromBody] ForgetPasswordRequest request)
+        {
+          var result=  await authenticationService.ForgetPassword(request);
+            return Ok(result);
+        }
+
+
+        [HttpPatch("reset-password")]
+        public async Task<ActionResult<string>> ResetPassword(ResetPasswordRequest request)
+        {
+            var result = await authenticationService.ResetPassword(request);
+            return Ok(result);
+        }
+
     }
 }

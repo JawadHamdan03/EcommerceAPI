@@ -12,6 +12,8 @@ namespace Ecommerce.BLL.Services.Interfaces
     {
         Task<UserResponse> LoginAsync(LoginRequest loginRequest);
         Task<UserResponse> RegisterAsync(RegisterRequest registerRequest);
-        
+         Task<string> ConfirmEmail(string token, string userId);
+        Task<string> ForgetPassword(ForgetPasswordRequest request);
+        Task<bool> ResetPassword(ResetPasswordRequest request);
     }
 }
