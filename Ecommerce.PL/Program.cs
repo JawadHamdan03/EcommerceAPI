@@ -30,10 +30,13 @@ namespace Ecommerce.PL
             builder.Services.AddScoped<ICategoryRepositery,CategoryRepositery>();
             builder.Services.AddScoped<ICategoryService,CategoryService>();
             builder.Services.AddScoped<IBrandRepositery,BrandRepositery>();
+            builder.Services.AddScoped<IProductRepositery,ProductRepositery>();
             builder.Services.AddScoped<IBrandService,BrandService>();
             builder.Services.AddScoped<ISeedData,SeedData>();
             builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
             builder.Services.AddScoped<IEmailSender, EmailSetting>();
+            builder.Services.AddScoped<IFileService,FileService>();
+            builder.Services.AddScoped<IProductService,ProductService>();
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
@@ -89,6 +92,7 @@ namespace Ecommerce.PL
 
             app.UseAuthorization();
 
+            app.UseStaticFiles();
 
             app.MapControllers();
 
